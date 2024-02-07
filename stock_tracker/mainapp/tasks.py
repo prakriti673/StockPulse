@@ -43,6 +43,7 @@ def update_stocks(self, stockpicker):
     for thread in thread_list:
         thread.join()
 
+    # appends result of queue data element one by one in the data list.
     while not que.empty():
         result=que.get()
         data.update(result)

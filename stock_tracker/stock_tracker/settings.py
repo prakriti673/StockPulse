@@ -36,12 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     # added
     'mainapp',
-    # 'django_celery_results',
-    # 'django_celery_beat',
-    # 'channels',
+
+    'django_celery_results',
+    'django_celery_beat',
+    
+    'channels'
+    
 ]
 
 MIDDLEWARE = [
@@ -127,3 +131,24 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Added by Prakriti
+# Celery settings
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+accept_content = ['application/json']
+result_serializer = 'json'
+task_serializer = 'json'
+timezone = 'Asia/Kolkata'
+
+# this is where the results will be stored after celery performs operations 
+result_backend = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
